@@ -1,17 +1,26 @@
 *.gem
+*.orig
 *.rbc
+*.swp
+capybara-*.html
 /.config
 /coverage/
+/db/*.sqlite3
 /InstalledFiles
+/log
 /pkg/
+/public/system
+rerun.txt
 /spec/reports/
 /spec/examples.txt
+/spec/tmp
 /test/tmp/
+/storage
 /test/version_tmp/
 /tmp/
 
 # Used by dotenv library to load environment variables.
-# .env
+.env
 
 # Ignore Byebug command history file.
 .byebug_history
@@ -57,3 +66,4 @@ build-iPhoneSimulator/
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
