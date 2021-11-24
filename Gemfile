@@ -12,6 +12,15 @@ gem 'dotenv-rails', '~> 2.7', '>= 2.7.6' # https://rubygems.org/gems/dotenv-rail
 gem 'pg', '~> 1.1' # https://rubygems.org/gems/pg
 gem 'puma', '~> 5.0' # https://rubygems.org/gems/puma
 
+<<<<<<< HEAD
+=======
+# acts as paranoid for soft_delete
+gem 'acts_as_paranoid'
+# bcrypt for secure password
+gem 'bcrypt', '~> 3.1', '>= 3.1.11'
+# gem jwt for tokens
+gem 'jwt'
+>>>>>>> 96ba277... OT112-23: Changed gems to alphabetical order
 # gem 'rack-cors' # https://rubygems.org/gems/rack-cors
 
 group :development, :test do
