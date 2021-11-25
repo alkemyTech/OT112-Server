@@ -5,11 +5,10 @@ Rails.application.routes.draw do
       post 'auth/register', to: 'users#create'
       # post 'auth/login', to: 'auth#create'
       # delete 'auth/logout', to: 'auth#destroy'
-=======
+
       resources :users
       post 'auth/login', to: 'auth#create'
       delete 'auth/logout', to: 'auth#destroy', as: 'logout'
->>>>>>> OT112-24: Add user resources routes only to show and destroy action
     end
   end
 =======
