@@ -1,4 +1,2 @@
-module Api::V1
-    class MembersController < ApplicationController
-    end  
+class Api::V1::MembersController < ApplicationController
 end
