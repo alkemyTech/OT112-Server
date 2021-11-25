@@ -20,4 +20,9 @@ class Member < ApplicationRecord
     has_one_attached :image
 
     acts_as_paranoid 
+
+    validates :name, presence: true
+    validates :facebookUrl, uniqness: true
+    validates :instagramUrl, uniqness: true
+    validates :linkedinUrl, uniqness: true
 end
