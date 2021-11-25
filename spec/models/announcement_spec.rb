@@ -11,9 +11,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class Announcement < ApplicationRecord
-  act_as_paranoid
+require 'rails_helper'
 
-  validates :name, presence: true
-  validates :content, presence: true
+RSpec.describe Announcement, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end
