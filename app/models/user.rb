@@ -28,9 +28,18 @@ class User < ApplicationRecord
   has_secure_password
   acts_as_paranoid
   belongs_to :role
-  
+
+  after_create :send_signup_email
+
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :password, presence: true
-  validates :email, presence: true, uniqueness: { case_Sensitive: false }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+
+  private
+
+  def send_signup_email
+    @user = self
+    UserNotifierMailer.send_signup_email(@user).deliver_now
+  end
 end
