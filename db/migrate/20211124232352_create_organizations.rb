@@ -1,12 +1,12 @@
 class CreateOrganizations < ActiveRecord::Migration[6.1]
   def change
     create_table :organizations do |t|
-      t.string :name
+      t.string :name, null: false
       t.string :address
       t.integer :phone
-      t.string :email
-      t.text :welcomeText
-      t.text :aboutUsText
+      t.string :email, null: false
+      t.text :welcome_text, null: false
+      t.text :about_us_text
       t.datetime :deleted_at
 
       t.timestamps
