@@ -9,7 +9,5 @@
 #  updated_at  :datetime         not null
 #
 class Role < ApplicationRecord
-
   validates :name, presence: true
-
 end
