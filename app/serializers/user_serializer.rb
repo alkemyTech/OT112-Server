@@ -23,14 +23,7 @@
 #
 #  fk_rails_...  (role_id => roles.id)
 #
-
-class User < ApplicationRecord
-  has_secure_password
-  acts_as_paranoid
-  belongs_to :role
-  
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :password, presence: true
-  validates :email, presence: true, uniqueness: { case_Sensitive: false }
+class UserSerializer
+  include JSONAPI::Serializer
+  attributes :first_name, :last_name, :email, :password, :photo
 end

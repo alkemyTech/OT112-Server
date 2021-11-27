@@ -21,6 +21,7 @@
 #
 class Announcement < ApplicationRecord
   act_as_paranoid
+  belongs_to :category
 
   validates :name, presence: true
   validates :content, presence: true
