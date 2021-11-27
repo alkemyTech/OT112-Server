@@ -1,6 +1,4 @@
 class Api::V1::AuthController < ApplicationController
-  before_action :user, only: [:create]
-  
   class AuthenticationError < StandardError; end
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
@@ -10,8 +8,7 @@ class Api::V1::AuthController < ApplicationController
     if user
       raise AuthenticationError unless user.authenticate(params.require(:password))
       token = AuthTokenService.call(user.id)
-      render json: user.as_json(only: [:email])
-      .merge("token": token)
+      render json: user.as_json(only: [:email]).merge("token": token)
     else
       render json: {ok: false}
     end
