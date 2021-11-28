@@ -16,8 +16,6 @@ gem 'pg', '~> 1.1' # https://rubygems.org/gems/pg
 gem 'puma', '~> 5.0' # https://rubygems.org/gems/puma
 
 # gem 'rack-cors' # https://rubygems.org/gems/rack-cors
-#gem jwt for tokens
-gem 'jwt'
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 5.1', '>= 5.1.1' # https://rubygems.org/gems/factory_bot_rails

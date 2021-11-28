@@ -9,18 +9,14 @@ class Api::V1::AuthController < ApplicationController
       raise AuthenticationError unless user.authenticate(params.require(:password))
 
       token = AuthTokenService.call(user.id)
-      render json: user.as_json(only: [:email]).merge("token": token)
+      render json: user.as_json(only: [:email]).merge(token: token)
     else
       render json: { ok: false }
     end
   end
 
-  def destroy
-    head(:ok, status: :no_content)
-  end
-
   private
-  
+
   def user
     @user ||= User.find_by(email: params.require(:email))
   end
