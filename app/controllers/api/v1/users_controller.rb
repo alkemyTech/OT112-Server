@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :authorize_request, except: :create
+
   def create
     @user = User.new(user_params)
     @user.role = Role.create_or_find_by(name: 'admin', description: 'admin user')
