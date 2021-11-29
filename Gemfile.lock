@@ -68,7 +68,7 @@ GEM
       rake (>= 10.4, < 14.0)
     ast (2.4.2)
     bcrypt (3.1.16)
-    bootsnap (1.9.1)
+    bootsnap (1.9.3)
       msgpack (~> 1.0)
     brakeman (5.1.2)
     builder (3.2.4)
@@ -94,7 +94,7 @@ GEM
     faker (2.19.0)
       i18n (>= 1.6, < 2)
     ffi (1.15.4)
-    globalid (0.5.2)
+    globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
@@ -113,17 +113,13 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.6.1)
     minitest (5.14.4)
     msgpack (1.4.2)
     nio4r (2.5.8)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
-      racc (~> 1.4)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     parallel (1.21.0)
-    parser (3.0.2.0)
+    parser (3.0.3.0)
       ast (~> 2.4.1)
     pg (1.2.3)
     pry (0.13.1)
@@ -249,7 +245,6 @@ GEM
     zeitwerk (2.5.1)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
