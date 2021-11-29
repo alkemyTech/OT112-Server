@@ -14,10 +14,10 @@
 #  updated_at    :datetime         not null
 #
 class Organization < ApplicationRecord
-    has_one_attached :image
-    acts_as_paranoid
+  has_one_attached :image
+  acts_as_paranoid
 
-    validates :name, presence: true
-    validates :email, presence: true
-    validates :welcome_text, presence: true
+  validates :name, presence: true
+  validates :email, presence: true, uniqueness: true
+  validates :welcome_text, presence: true
 end
