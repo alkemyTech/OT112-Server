@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       post 'auth/register', to: 'users#create'
       post 'auth/login', to: 'auth#create'
       # delete 'auth/logout', to: 'auth#destroy'
+      get 'organizations/:id/public', to: 'organizations#public'
     end
   end
 end

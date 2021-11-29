@@ -1,0 +1,1 @@
+json.organizations @organizations :name, :image, :phone, :address
