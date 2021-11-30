@@ -7,7 +7,15 @@ class Api::V1::UsersController < ApplicationController
     @user.role = Role.create_or_find_by(name: 'admin', description: 'admin user')
 
     if @user.save
-      render json: UserSerializer.new(@user).serializable_hash.to_json, status: :created
+      token = AuthTokenService.call(@user.id)
+      respond_to do |format|
+        format.json { 
+          render :json => {
+            "users" => UserSerializer.new(@user).serializable_hash.to_json,
+            "token" => token
+          }
+        }
+      end
     else
       render json: @user.errors, status: :unprocessable_entity
     end
