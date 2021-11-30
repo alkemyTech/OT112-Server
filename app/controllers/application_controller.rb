@@ -28,4 +28,5 @@ class ApplicationController < ActionController::API
   rescue_from CanCan::AccessDenied do
     render json: { msg: 'Access denied!' }
   end
+  
 end
