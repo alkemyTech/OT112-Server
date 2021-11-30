@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'categories', to: 'categories#index'
       post 'categories', to: 'categories#create'
       resources :users, only: :update
+      resources :categories, only: %i[destroy]
     end
   end
 end
