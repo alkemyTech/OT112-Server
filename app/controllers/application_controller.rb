@@ -9,10 +9,18 @@ class ApplicationController < ActionController::API
     begin
       @decoded = AuthTokenService.decode(header)
       @current_user = User.find(@decoded['user_id'])
+      ownership(@current_user)
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
     rescue JWT::DecodeError => e
       render json: { errors: e.message }, status: :unauthorized
+    end
+  end
+
+  def ownership(current_user)
+    token_id = current_user.id
+    if token_id != params[:id].to_i && current_user.role.name != 'admin'
+      render json: {msg: 'You are not allowed to see this content'}, status: :forbidden
     end
   end
     
