@@ -10,7 +10,8 @@
 #
 class Category < ApplicationRecord
   has_one_attached :image
-  acts_as_paranoid 
-  
+  has_many :announcements
+  acts_as_paranoid
+
   validates :name, presence: true
 end
