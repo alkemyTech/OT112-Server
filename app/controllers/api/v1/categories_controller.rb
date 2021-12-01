@@ -1,7 +1,7 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :authorize_request
   before_action :set_category, only: [:show]
-  
+
   def index
     @categories = Category.all
     if admin?(@current_user)
