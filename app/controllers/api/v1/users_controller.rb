@@ -11,8 +11,8 @@ class Api::V1::UsersController < ApplicationController
       respond_to do |format|
         format.json { 
           render :json => {
-            "users" => UserSerializer.new(@user).serializable_hash.to_json,
-            "token" => token
+            "token" => token,
+            "users" => UserSerializer.new(@user).serializable_hash
           }
         }
       end
