@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get 'organizations/:id/public', to: 'organizations#public'
       resources :users, only: :update
       post 'organizations/public', to: 'organizations#create'
+      get 'categories', to: 'categories#index'
       post 'categories', to: 'categories#create'
     end
   end
