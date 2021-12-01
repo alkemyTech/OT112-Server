@@ -30,10 +30,12 @@ class Api::V1::CategoriesController < ApplicationController
       if @categories
         @categories.destroy
       else
-        head :not_found
+        head :no_content
       end
     else
-      render json: { "status": "Only admin users can deletes categories" }
+      render json: { 
+        "status": "Only admin users can deletes categories" 
+      }, status: 422
     end
   end
 
