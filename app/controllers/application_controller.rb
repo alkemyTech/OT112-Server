@@ -16,12 +16,18 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def ownership(current_user)
+    if !owner?(current_user) && !admin?(current_user)
+      render json: {msg: 'You are not allowed to see this content'}, status: :forbidden
+    end
+  end
+
   def owner?(current_user)
-    current_user.id == params[:id].to_i
+    user.id == params[:id]
   end
 
   def admin?(current_user)
-    current_user.role.name == 'admin'
+    user.role.name == 'admin'
   end
     
   rescue_from CanCan::AccessDenied do
