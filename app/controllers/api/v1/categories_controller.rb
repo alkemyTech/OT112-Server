@@ -1,6 +1,7 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :authorize_request
-
+  before_action :set_category, only: [:show]
+  
   def index
     @categories = Category.all
     if admin?(@current_user)
@@ -8,6 +9,10 @@ class Api::V1::CategoriesController < ApplicationController
     else
       render json: @category.errors, status: :unprocessable_entity
     end
+  end
+
+  def show
+    render json: CategorySerializer.new(@category).serializable_hash.to_json  
   end
 
   def create
@@ -40,6 +45,10 @@ class Api::V1::CategoriesController < ApplicationController
 
   private
 
+  def set_category
+    @category = Category.find(params[:id])
+  end
+
   def category_params
     params.permit(:name, :description)
   end
@@ -47,5 +56,4 @@ class Api::V1::CategoriesController < ApplicationController
   def is_integer?(p)
     p.to_i.to_s == p
   end
-
 end
