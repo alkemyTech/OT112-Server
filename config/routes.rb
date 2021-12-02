@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       # delete 'auth/logout', to: 'auth#destroy'
       get 'organizations/:id/public', to: 'organizations#public'
       resources :users, only: :update
+      resources :announcements, only: [:update]
     end
   end
 end
