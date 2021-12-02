@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       post 'organizations/public', to: 'organizations#create'
       resources :users, only: :update
       post 'activities', to: 'activities#create'
+      resources :announcements, only: [:create]
     end
   end
 end
