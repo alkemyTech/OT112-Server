@@ -12,4 +12,7 @@
 class Activity < ApplicationRecord
   has_one_attached :image
   acts_as_paranoid
+
+  validates :name, presence: true
+  validates :content, presence: true
 end
