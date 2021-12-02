@@ -28,6 +28,10 @@ class Api::V1::AnnouncementsController < ApplicationController
 
   private
 
+  def set_announcement
+    @announcement = Announcement.find(params[:id])
+  end
+
   def announcement_params
     params.permit(:image, :name, :content, :category_id)
   end
