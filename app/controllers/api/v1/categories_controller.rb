@@ -1,6 +1,6 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :authorize_request
-  before_action :set_category, only: [:show]
+  before_action :set_category, only: %i[show update]
 
   def index
     @categories = Category.all
@@ -25,6 +25,14 @@ class Api::V1::CategoriesController < ApplicationController
       end
     else
       render json: @category.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if admin?(@current_user) && @category.update(category_params)
+      render json: @category
+    else
+      render json: {errors: @category.errors, msg: 'You are not authorized to perform that action'}, status: :unprocessable_entity
     end
   end
 
@@ -56,4 +64,5 @@ class Api::V1::CategoriesController < ApplicationController
   def is_integer?(p)
     p.to_i.to_s == p
   end
+
 end
