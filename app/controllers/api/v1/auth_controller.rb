@@ -1,10 +1,10 @@
 class Api::V1::AuthController < ApplicationController
+  before_action :authorize_request, only: [:show]
+
   class AuthenticationError < StandardError; end
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
   rescue_from AuthenticationError, with: :handle_unauthenticated
-
-  before_action :authorize_request, only: [:show]
 
   def create
     if user
