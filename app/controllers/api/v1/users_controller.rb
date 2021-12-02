@@ -8,14 +8,10 @@ class Api::V1::UsersController < ApplicationController
 
     if @user.save
       token = AuthTokenService.call(@user.id)
-      respond_to do |format|
-        format.json { 
-          render :json => {
-            "token" => token,
-            "users" => UserSerializer.new(@user).serializable_hash
-          }
-        }
-      end
+      render json: {
+        "token" => token,
+        "user" => UserSerializer.new(@user).serializable_hash
+      }
     else
       render json: @user.errors, status: :unprocessable_entity
     end
