@@ -15,6 +15,7 @@
 #
 class Organization < ApplicationRecord
   has_one_attached :image
+  has_many :slides
   acts_as_paranoid
 
   validates :name, presence: true

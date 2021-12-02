@@ -94,6 +94,15 @@ ActiveRecord::Schema.define(version: 2021_11_30_213158) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "slides", force: :cascade do |t|
+    t.string "text"
+    t.integer "order"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organization_id"], name: "index_slides_on_organization_id"
+  end
+
   create_table "testimonials", force: :cascade do |t|
     t.string "name", null: false
     t.string "content"
@@ -120,5 +129,6 @@ ActiveRecord::Schema.define(version: 2021_11_30_213158) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "announcements", "categories"
+  add_foreign_key "slides", "organizations"
   add_foreign_key "users", "roles"
 end
