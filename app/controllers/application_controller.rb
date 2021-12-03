@@ -15,9 +15,16 @@ class ApplicationController < ActionController::API
       render json: { errors: e.message }, status: :unauthorized
     end
   end
-    
+
+  def owner?(current_user)
+    current_user.id == params[:id].to_i
+  end
+
+  def admin?(current_user)
+    current_user.role.name == 'admin'
+  end
+
   rescue_from CanCan::AccessDenied do
-    flash[:error] = 'Access denied!'
-    redirect_to root_url
+    render json: { msg: 'Access denied!' }
   end
 end
