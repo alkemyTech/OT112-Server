@@ -17,6 +17,7 @@ class Api::V1::AnnouncementsController < ApplicationController
 
   def create
     @announcement = Announcement.new(announcement_params)
+    @announcement.type = "news"
     if @announcement.save
       render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
     else
