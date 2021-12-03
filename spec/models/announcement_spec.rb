@@ -5,7 +5,6 @@
 #  id          :bigint           not null, primary key
 #  content     :text             not null
 #  deleted_at  :datetime
-#  image       :string
 #  name        :string           not null
 #  type        :string
 #  created_at  :datetime         not null
