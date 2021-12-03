@@ -7,6 +7,7 @@ ruby '2.7.2'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 
 gem 'acts_as_paranoid', '~> 0.7.3' # https://rubygems.org/gems/acts_as_paranoid
+gem 'aws-sdk-s3', '~> 1.108' # https://rubygems.org/gems/aws-sdk-s3
 gem 'bcrypt', '~> 3.1', '>= 3.1.16' # https://rubygems.org/gems/bcrypt
 gem 'bootsnap', '>= 1.4.4', require: false # https://rubygems.org/gems/bootsnap
 gem 'cancancan', '~> 3.3' # https://rubygems.org/gems/cancancan

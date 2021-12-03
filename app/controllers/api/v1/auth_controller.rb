@@ -1,4 +1,6 @@
 class Api::V1::AuthController < ApplicationController
+  before_action :authorize_request, only: [:show]
+
   class AuthenticationError < StandardError; end
 
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
@@ -10,6 +12,14 @@ class Api::V1::AuthController < ApplicationController
 
       token = AuthTokenService.call(user.id)
       render json: user.as_json(only: [:email]).merge(token: token)
+    else
+      render json: { ok: false }
+    end
+  end
+
+  def show
+    if @current_user
+      render json: UserSerializer.new(@current_user).serializable_hash.to_json
     else
       render json: { ok: false }
     end
