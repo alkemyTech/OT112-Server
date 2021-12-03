@@ -11,7 +11,7 @@
 #
 class Testimonial < ApplicationRecord
   has_one_attached :image
-  act_as_paranoid
+  acts_as_paranoid
 
   validates :name, presence: true
 end
