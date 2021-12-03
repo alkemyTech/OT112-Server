@@ -5,7 +5,6 @@
 #  id          :bigint           not null, primary key
 #  content     :text             not null
 #  deleted_at  :datetime
-#  image       :string
 #  name        :string           not null
 #  type        :string
 #  created_at  :datetime         not null
@@ -23,6 +22,7 @@
 class Announcement < ApplicationRecord
   acts_as_paranoid
   belongs_to :category
+  has_one_attached :image
 
   validates :name, presence: true
   validates :content, presence: true
