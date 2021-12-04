@@ -3,6 +3,7 @@
 # Table name: slides
 #
 #  id              :bigint           not null, primary key
+#  imageUrl        :string
 #  order           :integer
 #  text            :string
 #  created_at      :datetime         not null
