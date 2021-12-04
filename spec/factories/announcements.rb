@@ -7,6 +7,7 @@
 #  deleted_at  :datetime
 #  image       :string
 #  name        :string           not null
+#  type        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint           not null
