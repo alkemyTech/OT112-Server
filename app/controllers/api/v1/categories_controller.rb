@@ -1,5 +1,5 @@
 class Api::V1::CategoriesController < ApplicationController
-  #before_action :authorize_request
+  before_action :authorize_request
   
   def create
     @category = Category.new(category_params)
