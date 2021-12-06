@@ -6,6 +6,17 @@ class Api::V1::AnnouncementsController < ApplicationController
     render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
   end
 
+  def create
+    @announcement = Announcement.new(announcement_params)
+    @announcement.type = "news"
+    @announcement.category = Category.create_or_find_by(name: 'news', description: 'news category')
+    if @announcement.save
+      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
+    else
+      render json: @announcement.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @announcement = Announcement.find(params[:id])
     if @announcement.destroy
@@ -13,16 +24,6 @@ class Api::V1::AnnouncementsController < ApplicationController
     else
       render json: @announcement.errors, status: 422
     end
-  before_action :authorize_request, only: [:create]
-
-  def create
-    @announcement = Announcement.new(announcement_params)
-    @announcement.type = "news"
-    if @announcement.save
-      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
-    else
-      render json: @announcement.errors, status: :unprocessable_entity
-    end  
   end
 
   private

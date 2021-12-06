@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(version: 2021_12_03_181119) do
   end
 
   create_table "slides", force: :cascade do |t|
-    t.string "imageUrl"
     t.string "text"
     t.integer "order"
     t.bigint "organization_id", null: false
