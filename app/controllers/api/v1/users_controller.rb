@@ -34,8 +34,14 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
-    render json: UserSerializer.new(@users).serializable_hash.to_json
+    if admin?(@current_user)
+      @users = User.all
+      render json: UserSerializer.new(@users).serializable_hash.to_json
+    else
+      render json: {
+        "status": "Only admin users can list announcements"
+      }, status: ::unauthorized
+    end
   end
 
   private
