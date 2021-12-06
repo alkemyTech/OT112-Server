@@ -3,6 +3,6 @@ class Api::V1::AnnouncementsController < ApplicationController
 
   def show
     @announcement = Announcement.find(params[:id])
-    render json: UserSerializer.new(@announcement).serializable_hash.to_json
+    render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
   end
 end
