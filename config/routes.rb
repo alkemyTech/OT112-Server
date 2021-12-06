@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'organizations/:id/public', to: 'organizations#public'
       post 'organizations/public', to: 'organizations#create'
       resources :users, only: :update
+      resources :announcements, only: :show
     end
   end
 end
