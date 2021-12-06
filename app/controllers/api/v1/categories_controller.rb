@@ -23,6 +23,21 @@ class Api::V1::CategoriesController < ApplicationController
     end
   end
 
+  def destroy
+    if admin?(@current_user)
+      @categories = Category.find(params[:id])
+      if @categories
+        @categories.destroy
+      else
+        head :no_content
+      end
+    else
+      render json: { 
+        "status": "Only admin users can delete categories" 
+      }, status: 422
+    end
+  end
+
   private
 
   def category_params
@@ -32,4 +47,5 @@ class Api::V1::CategoriesController < ApplicationController
   def is_integer?(p)
     p.to_i.to_s == p
   end
+
 end
