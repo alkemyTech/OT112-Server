@@ -10,7 +10,6 @@ class ApplicationController < ActionController::API
     begin
       @decoded = AuthTokenService.decode(header)
       @current_user = User.find(@decoded['user_id'])
-      ownership(@current_user)
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
     rescue JWT::DecodeError => e
