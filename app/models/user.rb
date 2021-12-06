@@ -8,7 +8,6 @@
 #  first_name      :string           not null
 #  last_name       :string           not null
 #  password_digest :string           not null
-#  photo           :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  role_id         :bigint           not null
@@ -28,6 +27,7 @@ class User < ApplicationRecord
   has_secure_password
   acts_as_paranoid
   belongs_to :role
+  has_one_attached :photo
 
   after_create :send_signup_email
 
