@@ -17,8 +17,15 @@ class Api::V1::AnnouncementsController < ApplicationController
     end
   end
 
+  def update
+    if admin?(@current_user) && @announcement.update(announcement_params)
+      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
+    else
+      render json: @announcement.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
-    @announcement = Announcement.find(params[:id])
     if @announcement.destroy
       head :no_content
     else
@@ -33,6 +40,6 @@ class Api::V1::AnnouncementsController < ApplicationController
   end
 
   def announcement_params
-    params.permit(:image, :name, :content, :category_id)
+    params.permit(:image, :name, :content, :category_id, :type)
   end
 end
