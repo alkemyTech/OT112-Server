@@ -7,6 +7,7 @@
 #  deleted_at  :datetime
 #  image       :string
 #  name        :string           not null
+#  type        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint           not null
@@ -25,4 +26,5 @@ class Announcement < ApplicationRecord
 
   validates :name, presence: true
   validates :content, presence: true
+  validates :type, presence: true
 end
