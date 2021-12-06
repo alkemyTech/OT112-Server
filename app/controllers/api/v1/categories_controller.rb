@@ -30,9 +30,9 @@ class Api::V1::CategoriesController < ApplicationController
 
   def update
     if admin?(@current_user) && @category.update(category_params)
-      render json: @category
+      render json: CategorySerializer.new(@category).serializable_hash.to_json
     else
-      render json: {errors: @category.errors, msg: 'You are not authorized to perform that action'}, status: :unprocessable_entity
+      render json: { errors: @category.errors, msg: 'You are not authorized to perform that action' }, status: :unprocessable_entity
     end
   end
 
