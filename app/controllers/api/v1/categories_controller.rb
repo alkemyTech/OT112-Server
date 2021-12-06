@@ -24,9 +24,8 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def destroy
-    @current_user.role = Role.find_by(name: 'user')
     if admin?(@current_user)
-      @categories = Categories.find(params[:id])
+      @categories = Category.find(params[:id])
       if @categories
         @categories.destroy
       else
@@ -34,7 +33,7 @@ class Api::V1::CategoriesController < ApplicationController
       end
     else
       render json: { 
-        "status": "Only admin users can deletes categories" 
+        "status": "Only admin users can delete categories" 
       }, status: 422
     end
   end
