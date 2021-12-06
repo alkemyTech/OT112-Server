@@ -19,7 +19,7 @@ class Api::V1::CategoriesController < ApplicationController
         render json: @category.errors, status: :unprocessable_entity
       end
     else
-      render json: @category.errors, status: :unprocessable_entity 
+      render json: @category.errors, status: :unprocessable_entity
     end
   end
 
