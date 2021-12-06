@@ -5,10 +5,9 @@ Rails.application.routes.draw do
       post 'auth/login', to: 'auth#create'
       get 'auth/me', to: 'auth#show'
       # delete 'auth/logout', to: 'auth#destroy'
+      resources :categories, only: %i[index create destroy]
       get 'organizations/:id/public', to: 'organizations#public'
       post 'organizations/public', to: 'organizations#create'
-      get 'categories', to: 'categories#index'
-      post 'categories', to: 'categories#create'
       resources :users, only: :update
     end
   end

@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authorize_request, except: :create
-  before_action :set_user, only: [:update]
+  before_action :set_user, only: %i[update destroy]
 
   def create
     @user = User.new(user_params)
@@ -22,6 +22,14 @@ class Api::V1::UsersController < ApplicationController
       render json: UserSerializer.new(@user).serializable_hash.to_json
     else
       render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @user.destroy
+      head :no_content
+    else
+      render :json, @user.errors, status: 422
     end
   end
 
