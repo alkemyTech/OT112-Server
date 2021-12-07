@@ -13,6 +13,9 @@ Rails.application.routes.draw do
       resources 'slides', to: 'slides#index'
       post 'testimonials', to: 'testimonials#create'
       resources :users, only: %i[update destroy]
+      resources :users, only: :update
+      post 'activities', to: 'activities#create'
+      resources :testimonials, only: :destroy
     end
   end
 end
