@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      resources :activities, only: %i[create update]
       resources :announcements, only: %i[show create update destroy]
       post 'auth/register', to: 'users#create'
       post 'auth/login', to: 'auth#create'
@@ -10,7 +11,6 @@ Rails.application.routes.draw do
       get 'organizations/:id/public', to: 'organizations#public'
       post 'organizations/public', to: 'organizations#create'
       resources :users, only: %i[update destroy]
-      post 'activities', to: 'activities#create'
     end
   end
 end
