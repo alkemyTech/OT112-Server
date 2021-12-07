@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :categories, only: %i[index show create update destroy]
       get 'organizations/:id/public', to: 'organizations#public'
       post 'organizations/public', to: 'organizations#create'
+      resources 'slides', to: 'slides#index'
       resources :users, only: %i[update destroy]
     end
   end
