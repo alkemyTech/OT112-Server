@@ -14,4 +14,23 @@ class Api::V1::TestimonialsController < ApplicationController
   def testimonial_params
     params.permit(:name, :content, :image)
   end
+  before_action :authorize_request
+
+  def destroy
+    if admin?(@current_user)
+      begin
+        @testimonials = Testimonial.find(params[:id])
+      rescue => exception
+        render json: { message: 'Testimonio no encontrado' }, status: :not_found 
+      else
+        @testimonials.destroy
+        render json: {
+          status: 'Success',
+          message: 'Testimonio eliminado',
+          data: @testimonials,
+          },
+          status: :ok
+      end
+  end
+
 end
