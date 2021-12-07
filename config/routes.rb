@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       post 'organizations/public', to: 'organizations#create'
       resources 'slides', to: 'slides#index'
       resources :users, only: %i[update destroy]
+      resources :users, only: :update
+      post 'activities', to: 'activities#create'
+      resources :testimonials, only: :create
     end
   end
 end
