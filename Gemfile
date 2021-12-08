@@ -16,6 +16,8 @@ gem 'jsonapi-serializer', '~> 2.2' # https://rubygems.org/gems/jsonapi-serialize
 gem 'jwt', '~> 2.3' # https://rubygems.org/gems/jwt
 gem 'pg', '~> 1.1' # https://rubygems.org/gems/pg
 gem 'puma', '~> 5.0' # https://rubygems.org/gems/puma
+gem 'active_storage_base64'  # https://github.com/rootstrap/active-storage-base64
+
 
 
 # gem 'rack-cors' # https://rubygems.org/gems/rack-cors
