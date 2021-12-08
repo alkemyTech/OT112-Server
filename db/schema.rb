@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_231109) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_contacts_on_deleted_at"
   end
 
   create_table "members", force: :cascade do |t|

@@ -11,6 +11,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_contacts_on_deleted_at  (deleted_at)
+#
 require 'rails_helper'
 
 RSpec.describe Contact, type: :model do
