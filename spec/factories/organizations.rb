@@ -7,6 +7,9 @@
 #  address       :string
 #  deleted_at    :datetime
 #  email         :string           not null
+#  facebook_url  :string
+#  instagram_url :string
+#  linkedin_url  :string
 #  name          :string           not null
 #  phone         :integer
 #  welcome_text  :text             not null
@@ -19,6 +22,9 @@ FactoryBot.define do
     address { "MyString" }
     phone { 1 }
     email { "MyString" }
+    facebook_url { "MyString" }
+    instagram_url { "MyString" }
+    linkedin_url { "MyString" }
     welcomeText { "MyText" }
     aboutUsText { "MyText" }
     deleted_at { "2021-11-24 20:23:52" }
