@@ -13,10 +13,14 @@ class Api::V1::ActivitiesController < ApplicationController
   end
 
   def update
-    if admin?(@current_user) && @activity.update(activity_params)
-      render json: ActivitySerializer.new(@activity).serializable_hash.to_json, status: :ok
+    if admin?(@current_user)
+      if @activity.update(activity_params)
+        render json: ActivitySerializer.new(@activity).serializable_hash.to_json, status: :ok
+      else
+        render json: @activity.errors
+      end
     else
-      render json: admin?(@current_user) ? @activity.errors : {error: 'You are not authorized to perform that action'}, status: :unprocessable_entity
+      render json: {error: 'You are not authorized to perform that action'}, status: :unauthorized
     end
   end
 
