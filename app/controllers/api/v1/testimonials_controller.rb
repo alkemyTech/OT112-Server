@@ -1,4 +1,5 @@
 class Api::V1::TestimonialsController < ApplicationController
+  
   def create
     @testimonial = Testimonial.new(testimonial_params)
     if admin?(@current_user) && @testimonial.save
@@ -7,7 +8,7 @@ class Api::V1::TestimonialsController < ApplicationController
       render json: @testimonial.errors, status: :unprocessable_entity
     end
   end
-
+    
   private
 
   def testimonial_params
