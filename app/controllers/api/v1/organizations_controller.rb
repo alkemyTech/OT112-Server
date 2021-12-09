@@ -17,7 +17,7 @@ class Api::V1::OrganizationsController < ApplicationController
 
   private
     def organization_params
-      params.permit(:name, :email, :address, :about_us_text, :phone, :welcome_text, :instagram_url, :facebook_url, :linkedin_url)
+      params.permit(:name, :email, :address, :about_us_text, :phone, :welcome_text, :instagram_url, :facebook_url, :linkedin_url, :image)
     end
 
 end
