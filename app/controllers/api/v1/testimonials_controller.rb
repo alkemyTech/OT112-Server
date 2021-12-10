@@ -31,6 +31,6 @@ class Api::V1::TestimonialsController < ApplicationController
           },
           status: :ok
       end
+    end
   end
-
 end
