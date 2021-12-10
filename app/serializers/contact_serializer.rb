@@ -1,4 +1,4 @@
 class ContactSerializer
   include JSONAPI::Serializer
-  attributes :name, :email
+  attributes :name, :phone, :email, :message
 end
