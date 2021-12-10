@@ -14,4 +14,5 @@ class Testimonial < ApplicationRecord
   acts_as_paranoid
 
   validates :name, presence: true
+  validates :content, presence: true
 end
