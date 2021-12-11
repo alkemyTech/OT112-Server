@@ -25,7 +25,7 @@ class Api::V1::SlidesController < ApplicationController
   end
     
   private
-
+  
     def slide_params
       default = { order: order_default.max + 1 }
       params.permit(:order, :organization_id).reverse_merge(default)
