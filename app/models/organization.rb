@@ -7,6 +7,9 @@
 #  address       :string
 #  deleted_at    :datetime
 #  email         :string           not null
+#  facebook_url  :string
+#  instagram_url :string
+#  linkedin_url  :string
 #  name          :string           not null
 #  phone         :integer
 #  welcome_text  :text             not null
