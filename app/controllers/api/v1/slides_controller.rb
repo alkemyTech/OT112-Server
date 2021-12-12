@@ -1,11 +1,25 @@
 class Api::V1::SlidesController < ApplicationController
+<<<<<<< HEAD
   before_action :set_slide, only: :destroy
   before_action :authorize_request
   
+=======
+  before_action :authorize_request, only: [:index, :show]
+  before_action :set_slide, only: [:show]
+
+>>>>>>> bf5b028 (OT112-57: Show method added to Slides controller.)
   def index
     if admin?(@current_user)
       @slides = Slide.all
       render json: SlidesSerializer.new(@slides).serializable_hash.to_json
+    else
+      render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
+    end
+  end
+
+  def show
+    if admin?(@current_user)
+      render json: SlideDetailSerializer.new(@slide).serializable_hash.to_json, status: :ok
     else
       render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
     end
