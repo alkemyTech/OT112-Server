@@ -1,13 +1,7 @@
 class Api::V1::SlidesController < ApplicationController
-<<<<<<< HEAD
-  before_action :set_slide, only: :destroy
+  before_action :set_slide, only: %i[show update destroy]
   before_action :authorize_request
   
-=======
-  before_action :authorize_request, only: [:index, :show]
-  before_action :set_slide, only: [:show]
-
->>>>>>> bf5b028 (OT112-57: Show method added to Slides controller.)
   def index
     if admin?(@current_user)
       @slides = Slide.all
