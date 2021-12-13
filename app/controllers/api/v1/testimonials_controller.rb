@@ -1,4 +1,5 @@
 class Api::V1::TestimonialsController < ApplicationController
+  before_action :authorize_request
   
   def create
     @testimonial = Testimonial.new(testimonial_params)
@@ -8,7 +9,25 @@ class Api::V1::TestimonialsController < ApplicationController
       render json: @testimonial.errors, status: :unprocessable_entity
     end
   end
-    
+  
+  def destroy
+    if admin?(@current_user)
+      begin
+        @testimonials = Testimonial.find(params[:id])
+      rescue => exception
+        render json: { message: 'Testimonio no encontrado' }, status: :not_found 
+      else
+        @testimonials.destroy
+        render json: {
+          status: 'Success',
+          message: 'Testimonio eliminado',
+          data: @testimonials,
+          },
+          status: :ok
+      end
+    end
+  end
+
   private
 
   def testimonial_params

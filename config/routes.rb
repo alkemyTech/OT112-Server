@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       get 'organizations/:id/public', to: 'organizations#public'
       post 'organizations/public', to: 'organizations#create'
       resources 'slides', to: 'slides#index'
-      post 'testimonials', to: 'testimonials#create'
+      resources :testimonials, only: %i[create destroy]
       resources :users, only: %i[update destroy]
     end
   end
