@@ -18,6 +18,9 @@
 #  fk_rails_...  (organization_id => organizations.id)
 #
 class Slide < ApplicationRecord
-  has_one_attached :image
+  has_one_base64_attached :image
   belongs_to :organization
+
+  validates :image, presence: true
+ 
 end
