@@ -1,4 +1,5 @@
 class Api::V1::TestimonialsController < ApplicationController
+  before_action :authorize_request
   
   def create
     @testimonial = Testimonial.new(testimonial_params)
@@ -8,14 +9,7 @@ class Api::V1::TestimonialsController < ApplicationController
       render json: @testimonial.errors, status: :unprocessable_entity
     end
   end
-    
-  private
-
-  def testimonial_params
-    params.permit(:name, :content, :image)
-  end
-  before_action :authorize_request
-
+  
   def destroy
     if admin?(@current_user)
       begin
@@ -32,5 +26,11 @@ class Api::V1::TestimonialsController < ApplicationController
           status: :ok
       end
     end
+  end
+
+  private
+
+  def testimonial_params
+    params.permit(:name, :content, :image)
   end
 end
