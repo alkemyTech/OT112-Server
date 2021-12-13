@@ -24,6 +24,14 @@ class Api::V1::SlidesController < ApplicationController
       render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
     end
   end
+
+  def update
+    if admin?(@current_user) && @slide.update(slide_params)
+        render json: Slide.Serializer.new(@slide).serializable_hash.to_json
+    else
+        render json: @slide.errors, status: :unprocessable_entity
+    end
+  end
   
   def destroy
     if admin?(@current_user)
@@ -49,7 +57,7 @@ class Api::V1::SlidesController < ApplicationController
     default = { order: order_default.max + 1 }
     params.permit(:order, :organization_id).reverse_merge(default)
   end
-
+  
   def order_default
     order_array = []
     slides = Slide.all
@@ -59,6 +67,6 @@ class Api::V1::SlidesController < ApplicationController
     end
     order_array.empty? ? [0] : order_array
   end
-    
+  
 end
 
