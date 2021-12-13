@@ -18,7 +18,7 @@
 #
 class OrganizationSerializer
   include JSONAPI::Serializer
-  attributes :name, :phone, :address
+  attributes :name, :phone, :address, :instagram_url, :facebook_url, :linkedin_url
   attribute :image do |organization|
     Rails.application.routes.url_helpers.rails_blob_path(organization.image, only_path: true) if organization.image.attached?
   end
