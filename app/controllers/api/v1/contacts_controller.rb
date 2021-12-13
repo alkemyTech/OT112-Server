@@ -3,16 +3,12 @@ class Api::V1::ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
-    if params[:name] && params[:email]
-      if @contact.save
-        render json: ContactSerializer.new(@contact).serializable_hash.to_json
-      else
-        render json: @contact.errors, status: :unprocessable_entity
-      end
+    if @contact.save
+      render json: ContactSerializer.new(@contact).serializable_hash.to_json
     else
       render json: @contact.errors, status: :unprocessable_entity
     end
-  end 
+  end
 
   private
     def contact_params
