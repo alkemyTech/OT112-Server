@@ -1,11 +1,19 @@
 class Api::V1::SlidesController < ApplicationController
-  before_action :set_slide, only: :destroy
+  before_action :set_slide, only: %i[show update destroy]
   before_action :authorize_request
   
   def index
     if admin?(@current_user)
       @slides = Slide.all
       render json: SlidesSerializer.new(@slides).serializable_hash.to_json
+    else
+      render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
+    end
+  end
+
+  def show
+    if admin?(@current_user)
+      render json: SlideDetailSerializer.new(@slide).serializable_hash.to_json, status: :ok
     else
       render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
     end
