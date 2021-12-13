@@ -1,6 +1,7 @@
 class Api::V1::SlidesController < ApplicationController
+  before_action :set_slide, only: :destroy
   before_action :authorize_request
-
+  
   def index
     if admin?(@current_user)
       @slides = Slide.all
@@ -23,22 +24,41 @@ class Api::V1::SlidesController < ApplicationController
       render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
     end
   end
-    
-  private
   
-    def slide_params
-      default = { order: order_default.max + 1 }
-      params.permit(:order, :organization_id).reverse_merge(default)
-    end
-
-    def order_default
-      order_array = []
-      slides = Slide.all
-      
-      slides.each do |slide|
-        order_array << slide.order
+  def destroy
+    if admin?(@current_user)
+      if @slides.destroy
+        head :no_content
+      else
+        render json: @announcement.errors, status: 422
       end
-      order_array.empty? ? [0] : order_array
+    else
+      render json: { 
+        "status": "Only admin users can delete slides" 
+        }, status: 422
     end
+  end
+
+  private
+
+  def set_slide
+    @slide = Slide.find(params[:id])
+  end
+  
+  def slide_params
+    default = { order: order_default.max + 1 }
+    params.permit(:order, :organization_id).reverse_merge(default)
+  end
+
+  def order_default
+    order_array = []
+    slides = Slide.all
+    
+    slides.each do |slide|
+      order_array << slide.order
+    end
+    order_array.empty? ? [0] : order_array
+  end
     
 end
+
