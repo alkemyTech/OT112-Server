@@ -12,10 +12,7 @@ Rails.application.routes.draw do
       post 'organizations/public', to: 'organizations#create'
       resources 'slides', to: 'slides#index'
       resources :testimonials, only: %i[create destroy]
-      resources :users, only: %i[update destroy]
-      resources :users, only: :update
-      post 'activities', to: 'activities#create'
-      get 'users', to: 'users#index'
+      resources :users, only: %i[index update destroy]
     end
   end
 end
