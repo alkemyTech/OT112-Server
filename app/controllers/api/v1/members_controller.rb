@@ -10,11 +10,12 @@ class Api::V1::MembersController < ApplicationController
         render json: @member.errors, status: :unprocessable_entity
       end
     else
-      render json: {error: 'You are not authorized to perform that action'}, status: :unauthorized
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   private
+
   def member_params
     params.permit(:name, :facebook_url, :instagram_url, :linkedin_url)
   end
