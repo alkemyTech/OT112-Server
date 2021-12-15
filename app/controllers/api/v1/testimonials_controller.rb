@@ -1,5 +1,5 @@
 class Api::V1::TestimonialsController < ApplicationController
-  before_action :set_testimonial, only: [:update]
+  before_action :set_testimonial, only: %i[update destroy]
   before_action :authorize_request
 
   def create
