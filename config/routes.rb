@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :slides, only: %i[index show create update destroy]
       resources :testimonials, only: %i[create update destroy]
       resources :users, only: %i[index update destroy]
+      resources :members, only: [:index]
     end
   end
 end
