@@ -22,4 +22,5 @@ class OrganizationSerializer
   attribute :image do |organization|
     Rails.application.routes.url_helpers.rails_blob_path(organization.image, only_path: true) if organization.image.attached?
   end
+  attribute :slides
 end
