@@ -18,5 +18,5 @@
 #
 class MemberSerializer
   include JSONAPI::Serializer
-  attributes :name
+  attributes :name, :facebook_url, :instagram_url, :linkedin_url
 end

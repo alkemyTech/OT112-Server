@@ -9,12 +9,12 @@ Rails.application.routes.draw do
       # delete 'auth/logout', to: 'auth#destroy'
       resources :categories, only: %i[index show create update destroy]
       resources :contacts, only: :create
+      resources :members, only: %i[create]
       get 'organizations/:id/public', to: 'organizations#public'
       post 'organizations/public', to: 'organizations#create'
       resources :slides, only: %i[index show create update destroy]
       resources :testimonials, only: %i[create update destroy]
       resources :users, only: %i[index update destroy]
-      resources :members, only: %i[create]
     end
   end
 end
