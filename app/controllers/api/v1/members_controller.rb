@@ -1,5 +1,6 @@
 class Api::V1::MembersController < ApplicationController
   before_action :authorize_request
+  before_action :set_member, only: %i[destroy]
 
   def index
     if admin?(@current_user)
@@ -23,6 +24,14 @@ class Api::V1::MembersController < ApplicationController
     end
   end
 
+  def destroy
+    if admin?(@current_user)
+      @member.destroy
+    else
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
+    end
+  end
+
   private
 
   def member_params
@@ -31,5 +40,11 @@ class Api::V1::MembersController < ApplicationController
 
   def is_integer?(p)
     p.to_i.to_s == p
+  end
+
+  def set_member
+    @member = Member.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: {error: "Could not find member with ID '#{params[:id]}'"}
   end
 end
