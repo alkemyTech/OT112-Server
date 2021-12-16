@@ -17,7 +17,7 @@ class Api::V1::MembersController < ApplicationController
   private
 
   def member_params
-    params.permit(:name, :facebook_url, :instagram_url, :linkedin_url)
+    params.permit(:name)
   end
 
   def is_integer?(p)
