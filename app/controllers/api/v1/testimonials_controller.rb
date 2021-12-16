@@ -2,6 +2,11 @@ class Api::V1::TestimonialsController < ApplicationController
   before_action :set_testimonial, only: %i[update destroy]
   before_action :authorize_request
 
+  def index
+    @testimonials = Testimonial.all
+    render json: TestimonialSerializer.new(@testimonials).serializable_hash.to_json
+  end
+
   def create
     @testimonial = Testimonial.new(testimonial_params)
     if admin?(@current_user) && @testimonial.save
@@ -34,6 +39,8 @@ class Api::V1::TestimonialsController < ApplicationController
           },
           status: :ok
       end
+    end
+  end
 
 
   private

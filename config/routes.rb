@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       get 'organizations/:id/public', to: 'organizations#public'
       post 'organizations/public', to: 'organizations#create'
       resources :slides, only: %i[index show create update destroy]
-      resources :testimonials, only: %i[create update destroy]
+      resources :testimonials, only: %i[index create update destroy]
       resources :users, only: %i[index update destroy]
     end
   end
