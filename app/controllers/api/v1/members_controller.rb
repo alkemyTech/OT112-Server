@@ -3,10 +3,9 @@ class Api::V1::MembersController < ApplicationController
 
   def create
     @member = Member.new(member_params)
-    
     if admin?(@current_user)
-      if is_string?(params[:name]) && @member.save
-
+      if !is_integer?(params[:name]) && @member.save
+        render json: MemberSerializer.new(@member).serializable_hash.to_json
       else
         render json: @member.errors, status: :unprocessable_entity
       end
@@ -20,7 +19,7 @@ class Api::V1::MembersController < ApplicationController
     params.permit(:name, :facebook_url, :instagram_url, :linkedin_url)
   end
 
-  def is_string?(param)
-    param.class == String
+  def is_integer?(p)
+    p.to_i.to_s == p
   end
 end
