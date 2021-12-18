@@ -9,7 +9,7 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: {
         "status": "Only admin users can list announcements"
-      }, status: ::unauthorized
+      }, status: :unauthorized
     end
   end
   
