@@ -18,8 +18,15 @@
 class Contact < ApplicationRecord
   acts_as_paranoid
 
+  after_create :send_contact_email
+
   validates :name, presence: true
   validates :phone, presence: true
   validates :email, presence: true
   validates :message, presence: true
+
+  def send_contact_email
+    @contact = self
+    ContactNotifierMailer.send_contact_email(@contact).deliver_now
+  end
 end

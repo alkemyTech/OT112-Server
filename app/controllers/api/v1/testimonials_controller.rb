@@ -1,6 +1,13 @@
 class Api::V1::TestimonialsController < ApplicationController
+  include Pagy::Backend
   before_action :set_testimonial, only: %i[update destroy]
   before_action :authorize_request
+  after_action { pagy_headers_merge(@pagy) if @pagy }
+
+  def index
+    @pagy, @testimonials = pagy(Testimonial.all, items: 10)
+    render json: TestimonialSerializer.new(@testimonials).serializable_hash.to_json
+  end
 
   def create
     @testimonial = Testimonial.new(testimonial_params)
@@ -34,6 +41,8 @@ class Api::V1::TestimonialsController < ApplicationController
           },
           status: :ok
       end
+    end
+  end
 
 
   private

@@ -1,6 +1,15 @@
 class Api::V1::MembersController < ApplicationController
   before_action :authorize_request
 
+  def index
+    if admin?(@current_user)
+      @members = Member.all
+      render json: MemberSerializer.new(@members).serializable_hash.to_json, status: :ok
+    else
+      render json: {error: 'You are not authorized to perform that action'}
+    end
+  end
+
   def create
     @member = Member.new(member_params)
     if admin?(@current_user)
