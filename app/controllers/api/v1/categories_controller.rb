@@ -4,7 +4,7 @@ class Api::V1::CategoriesController < ApplicationController
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
-    @pagy, @categories = pagy(Category.all, items: 10, page: params[:page])
+    @pagy, @categories = pagy(Category.all, items: params[:items] || 10, page: params[:page] || 1)
     if admin?(@current_user)
       render json: CategorySerializer.new(@categories, { fields: { category: [:name] } }).serializable_hash.to_json
     else
