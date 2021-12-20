@@ -28,3 +28,44 @@ activities = [
 activities.each do |name, content|
   Activity.create(name: name, content: content)
 end
+
+roles = [
+  {name: "admin", description: "admin role"},
+  {name: "regular", description: "regular role"},
+  {name: "standard", description: "standard role"}
+]
+
+roles.each do |role|
+  Role.create(role)
+end
+
+users = [
+  # Admin
+  {first_name: "Admin", last_name: "Admin", email: "admin@example.com", password: "4dM1nM4sT3rK3y", role_id: 1},
+  # Regulars
+  {first_name: "Pedro", last_name: "Aguilar", email: "pedro.aguilar@example.com", password: "password", role_id: 2},
+  {first_name: "Rodolfo", last_name: "Juarez", email: "rodolfo.juarez@example.com", password: "password", role_id: 2},
+  {first_name: "Mario", last_name: "Gomez", email: "mario.gomez@example.com", password: "password", role_id: 2},
+  {first_name: "Jose", last_name: "Perez", email: "jose.perez@example.com", password: "password", role_id: 2},
+  {first_name: "Omar", last_name: "Gutierrez", email: "omar.gutierrez@example.com", password: "password", role_id: 2},
+  {first_name: "Juana", last_name: "Diaz", email: "juana.diaz@example.com", password: "password", role_id: 2},
+  {first_name: "Maria", last_name: "Sosa", email: "maria.sosa@example.com", password: "password", role_id: 2},
+  {first_name: "Ana", last_name: "Jaime", email: "ana.jaime@example.com", password: "password", role_id: 2},
+  {first_name: "Marta", last_name: "Martin", email: "marta.martin@example.com", password: "password", role_id: 2},
+  {first_name: "Francisca", last_name: "Acevedo", email: "francisca.acevedo@example.com", password: "password", role_id: 2},
+  # Standards
+  {first_name: "Will", last_name: "Smith", email: "will.smith@example.com", password: "password", role_id: 3},
+  {first_name: "Marlon", last_name: "Brando", email: "marlon.brando@example.com", password: "password", role_id: 3},
+  {first_name: "Chuck", last_name: "Norris", email: "chuck.norris@example.com", password: "password", role_id: 3},
+  {first_name: "Kung", last_name: "Lao", email: "kung.lao@example.com", password: "password", role_id: 3},
+  {first_name: "Luke", last_name: "Skywalker", email: "luke.skywalker@example.com", password: "password", role_id: 3},
+  {first_name: "Hanna", last_name: "Montana", email: "hanna.montana@example.com", password: "password", role_id: 3},
+  {first_name: "Sandra", last_name: "Bullock", email: "sandra.bullock@example.com", password: "password", role_id: 3},
+  {first_name: "Serena", last_name: "Williams", email: "serena.williams@example.com", password: "password", role_id: 3},
+  {first_name: "Paula", last_name: "Pareto", email: "paula.pareto@example.com", password: "password", role_id: 3},
+  {first_name: "Jennifer", last_name: "Lawrence", email: "jennifer.lawrence@example.com", password: "password", role_id: 3}
+]
+
+users.each do |user|
+  User.create(user)
+end
