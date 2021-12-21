@@ -1,13 +1,13 @@
 class Api::V1::SlidesController < ApplicationController
-  before_action :set_slide, only: %i[show update destroy]
   before_action :authorize_request
+  before_action :set_slide, only: %i[show update destroy]
   
   def index
     if admin?(@current_user)
       @slides = Slide.all
       render json: SlidesSerializer.new(@slides).serializable_hash.to_json
     else
-      render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
+      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
@@ -15,7 +15,7 @@ class Api::V1::SlidesController < ApplicationController
     if admin?(@current_user)
       render json: SlideDetailSerializer.new(@slide).serializable_hash.to_json, status: :ok
     else
-      render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
+      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
@@ -29,29 +29,31 @@ class Api::V1::SlidesController < ApplicationController
         render json: @slide.errors, status: :unprocessable_entity 
       end
     else
-      render json: {msg: 'You are not authorized to perform that action'}, status: :forbidden
+      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   def update
-    if admin?(@current_user) && @slide.update(slide_params)
-        render json: Slide.Serializer.new(@slide).serializable_hash.to_json
+    if admin?(@current_user)  
+      if @slide.update(slide_params)
+        render json: SlidesSerializer.new(@slide).serializable_hash.to_json
+      else
+          render json: @slide.errors, status: :unprocessable_entity
+      end
     else
-        render json: @slide.errors, status: :unprocessable_entity
+      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
   
   def destroy
     if admin?(@current_user)
-      if @slides.destroy
+      if @slide.destroy
         head :no_content
       else
         render json: @announcement.errors, status: 422
       end
     else
-      render json: { 
-        "status": "Only admin users can delete slides" 
-        }, status: 422
+      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
@@ -59,7 +61,10 @@ class Api::V1::SlidesController < ApplicationController
 
   def set_slide
     @slide = Slide.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Could not find slide with ID '#{ params[:id] }'" }
   end
+  
   
   def slide_params
     default = { order: order_default.max + 1 }
