@@ -1,5 +1,6 @@
 class Api::V1::AnnouncementsController < ApplicationController
   before_action :authorize_request
+  before_action :set_announcement, only: %i[show update destroy]
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
@@ -8,7 +9,6 @@ class Api::V1::AnnouncementsController < ApplicationController
   end
 
   def show
-    @announcement = Announcement.find(params[:id])
     render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
   end
 
@@ -24,18 +24,26 @@ class Api::V1::AnnouncementsController < ApplicationController
   end
 
   def update
-    if admin?(@current_user) && @announcement.update(announcement_params)
-      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
+    if admin?(@current_user) 
+      if @announcement.update(announcement_params)
+        render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
+      else
+        render json: @announcement.errors, status: :unprocessable_entity
+      end
     else
-      render json: @announcement.errors, status: :unprocessable_entity
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   def destroy
-    if @announcement.destroy
-      head :no_content
+    if admin?(@current_user) 
+      if @announcement.destroy
+        head :no_content
+      else
+        render json: @announcement.errors, status: 422
+      end
     else
-      render json: @announcement.errors, status: 422
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
@@ -43,7 +51,10 @@ class Api::V1::AnnouncementsController < ApplicationController
 
   def set_announcement
     @announcement = Announcement.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Could not find announcement with ID '#{ params[:id] }'" }
   end
+  
 
   def announcement_params
     params.permit(:image, :name, :content, :category_id, :type)
