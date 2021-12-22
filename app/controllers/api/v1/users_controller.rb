@@ -8,7 +8,7 @@ class Api::V1::UsersController < ApplicationController
       render json: UserSerializer.new(@users).serializable_hash.to_json
     else
       render json: {
-        "status": "Only admin users can list announcements"
+        "status": "Only admin users can list users"
       }, status: :unauthorized
     end
   end
@@ -49,6 +49,8 @@ class Api::V1::UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: {error: "Could not find user with ID '#{params[:id]}'"}, status: :unprocessable_entity
   end
 
   def user_params
