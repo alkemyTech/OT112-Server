@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :activities, only: %i[create update]
-      resources :announcements, only: %i[show create update destroy]
+      resources :announcements, only: %i[index show create update destroy]
       post 'auth/register', to: 'users#create'
       post 'auth/login', to: 'auth#create'
       get 'auth/me', to: 'auth#show'

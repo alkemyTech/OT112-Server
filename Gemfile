@@ -5,6 +5,7 @@ ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
+
 gem 'active_storage_base64' # https://rubygems.org/gems/active_storage_base64/versions/0.1.2
 gem 'acts_as_paranoid', '~> 0.7.3' # https://rubygems.org/gems/acts_as_paranoid
 gem 'aws-sdk-s3', '~> 1.108' # https://rubygems.org/gems/aws-sdk-s3
@@ -14,13 +15,10 @@ gem 'cancancan', '~> 3.3' # https://rubygems.org/gems/cancancan
 gem 'dotenv-rails', '~> 2.7', '>= 2.7.6' # https://rubygems.org/gems/dotenv-rails
 gem 'jsonapi-serializer', '~> 2.2' # https://rubygems.org/gems/jsonapi-serializer
 gem 'jwt', '~> 2.3' # https://rubygems.org/gems/jwt
-gem 'pagy', '~> 5.6'
+gem 'pagy', '~> 5.6' # https://rubygems.org/gems/pagy
 gem 'pg', '~> 1.1' # https://rubygems.org/gems/pg
 gem 'puma', '~> 5.0' # https://rubygems.org/gems/puma
  
-
-
-
 # gem 'rack-cors' # https://rubygems.org/gems/rack-cors
 
 group :development, :test do
