@@ -5,7 +5,7 @@ class Api::V1::TestimonialsController < ApplicationController
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
-    @pagy, @testimonials = pagy(Testimonial.all, items: 10)
+    @pagy, @testimonials = pagy(Testimonial.all, items: params[:items] || 10, page: params[:page] || 1)
     render json: TestimonialSerializer.new(@testimonials).serializable_hash.to_json
   end
 
@@ -17,7 +17,7 @@ class Api::V1::TestimonialsController < ApplicationController
       render json: @testimonial.errors, status: :unprocessable_entity
     end
   end
-  
+
   def update
     if admin?(@current_user) && @testimonial.update(testimonial_params)
       render json: TestimonialSerializer.new(@testimonial).serializable_hash.to_json, status: :created
@@ -25,7 +25,7 @@ class Api::V1::TestimonialsController < ApplicationController
       render json: @testimonial.errors, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
     if admin?(@current_user)
       begin
@@ -43,7 +43,6 @@ class Api::V1::TestimonialsController < ApplicationController
       end
     end
   end
-
 
   private
 
