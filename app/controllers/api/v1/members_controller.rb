@@ -11,7 +11,7 @@ class Api::V1::MembersController < ApplicationController
       @pagy, @members = pagy(Member.all, items: params[:items] || 10, page: params[:page] || 1)
       render json: MemberSerializer.new(@members).serializable_hash.to_json, status: :ok
     else
-      render json: {error: 'You are not authorized to perform that action'}
+      render json: { error: 'You are not authorized to perform that action' }
     end
   end
 
@@ -38,7 +38,11 @@ class Api::V1::MembersController < ApplicationController
 
   def destroy
     if admin?(@current_user)
-      @member.destroy
+      if @member.destroy
+        head :no_content
+      else
+        render json: @member.errors, status: 422
+      end
     else
       render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
@@ -52,15 +56,13 @@ class Api::V1::MembersController < ApplicationController
 
   def set_member
     @member = Member.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Could not find member with ID '#{ params[:id] }'" }
   end
-
+  
   def is_integer?(p)
     p.to_i.to_s == p
   end
 
-  def set_member
-    @member = Member.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: {error: "Could not find member with ID '#{params[:id]}'"}
-  end
+  
 end
