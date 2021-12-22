@@ -51,15 +51,13 @@ class Api::V1::MembersController < ApplicationController
     params.permit(:name, :facebook_url, :instagram_url, :linkedin_url)
   end
 
-  def set_member
-    @member = Member.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: "Could not find member with ID '#{params[:id]}'" }
-  end
-  
   def is_integer?(p)
     p.to_i.to_s == p
   end
 
-  
+  def set_member
+    @member = Member.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Could not find member with ID '#{params[:id]}'"}
+  end
 end
