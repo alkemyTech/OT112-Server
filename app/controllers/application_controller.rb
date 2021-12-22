@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include Pagy::Backend
   
   def not_found
     render json: { error: 'not_found' }
