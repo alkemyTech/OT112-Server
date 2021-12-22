@@ -1,10 +1,14 @@
 class Api::V1::MembersController < ApplicationController
+  include Pagy::Backend
+
   before_action :authorize_request
-  before_action :set_member, only: %i[destroy]
+  before_action :set_member, only: %i[update destroy]
+
+  after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
     if admin?(@current_user)
-      @members = Member.all
+      @pagy, @members = pagy(Member.all, items: params[:items] || 10, page: params[:page] || 1)
       render json: MemberSerializer.new(@members).serializable_hash.to_json, status: :ok
     else
       render json: {error: 'You are not authorized to perform that action'}
@@ -24,6 +28,14 @@ class Api::V1::MembersController < ApplicationController
     end
   end
 
+  def update
+    if admin?(@current_user) && @member.update(member_params)
+      render json: MemberSerializer.new(@member).serializable_hash.to_json, status: :ok
+    else
+      render json: @member.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     if admin?(@current_user)
       @member.destroy
@@ -36,6 +48,10 @@ class Api::V1::MembersController < ApplicationController
 
   def member_params
     params.permit(:name, :facebook_url, :instagram_url, :linkedin_url)
+  end
+
+  def set_member
+    @member = Member.find(params[:id])
   end
 
   def is_integer?(p)
