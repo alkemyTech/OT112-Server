@@ -1,15 +1,12 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :authorize_request
-  before_action :set_category, only: %i[show update destroy]
+  before_action :admin?, only: %i[index create update destroy]
+  before_action :set_category, only: %i[show update]
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
     @pagy, @categories = pagy(Category.all, items: params[:items] || 10, page: params[:page] || 1)
-    if admin?(@current_user)
-      render json: CategorySerializer.new(@categories, { fields: { category: [:name] } }).serializable_hash.to_json
-    else
-      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
-    end
+    render json: CategorySerializer.new(@categories, { fields: { category: [:name] } }).serializable_hash.to_json
   end
 
   def show
@@ -18,7 +15,7 @@ class Api::V1::CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
-    if admin?(@current_user) && !is_integer?(params[:name])
+    if !is_integer?(params[:name])
       if @category.save
         render json: CategorySerializer.new(@category).serializable_hash.to_json
       else
@@ -30,26 +27,19 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def update
-    if admin?(@current_user)
-      if @category.update(category_params)
-        render json: CategorySerializer.new(@category).serializable_hash.to_json
-      else
-        render json: @category.errors, status: :unprocessable_entity
-      end
+    if @category.update(category_params)
+      render json: CategorySerializer.new(@category).serializable_hash.to_json
     else
-      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
+      render json: @category.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if admin?(@current_user)
-      if @category.destroy
-        head :no_content
-      else
-        render json: @category.errors, status: :unprocessable_entity
-      end
+    @categories = Category.find(params[:id])
+    if @categories
+      @categories.destroy
     else
-      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
+      head :no_content
     end
   end
 

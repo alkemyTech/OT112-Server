@@ -2,6 +2,7 @@ class Api::V1::TestimonialsController < ApplicationController
   include Pagy::Backend
   before_action :set_testimonial, only: %i[update destroy]
   before_action :authorize_request
+  before_action :admin?, only: %i[create update destroy]
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
@@ -11,38 +12,33 @@ class Api::V1::TestimonialsController < ApplicationController
 
   def create
     @testimonial = Testimonial.new(testimonial_params)
-    if admin?(@current_user) 
-      if @testimonial.save
-        render json: TestimonialSerializer.new(@testimonial).serializable_hash.to_json, status: :created
-      else
-        render json: @testimonial.errors, status: :unprocessable_entity
-      end
+    if @testimonial.save
+      render json: TestimonialSerializer.new(@testimonial).serializable_hash.to_json, status: :created
     else
       render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   def update
-    if admin?(@current_user) 
-      if @testimonial.update(testimonial_params)
-        render json: TestimonialSerializer.new(@testimonial).serializable_hash.to_json, status: :created
-      else
-        render json: @testimonial.errors, status: :unprocessable_entity
-      end
+    if @testimonial.update(testimonial_params)
+      render json: TestimonialSerializer.new(@testimonial).serializable_hash.to_json, status: :created
     else
       render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   def destroy
-    if admin?(@current_user)
-      if @testimonial.destroy
-        head :no_content
-      else
-        render json: @announcement.errors, status: :unprocessable_entity
-      end
+    begin
+      @testimonials = Testimonial.find(params[:id])
+    rescue => exception
+      render json: { message: 'Testimonio no encontrado' }, status: :not_found 
     else
-      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
+      @testimonials.destroy
+      render json: {
+        status: 'Success',
+        message: 'Testimonio eliminado',
+        data: @testimonials,
+        }, status: :ok
     end
   end
 
@@ -51,7 +47,7 @@ class Api::V1::TestimonialsController < ApplicationController
   def set_testimonial
     @testimonial = Testimonial.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Could not find testimonial with ID '#{ params[:id] }'" }
+    render json: { error: "Could not find testimonial with ID '#{params[:id]}'" }
   end
 
   def testimonial_params

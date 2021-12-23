@@ -1,22 +1,16 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authorize_request, except: :create
+  before_action :admin?, only: %i[index] 
   before_action :set_user, only: %i[update destroy]
-  
+
   def index
-    if admin?(@current_user)
-      @users = User.all
-      render json: UserSerializer.new(@users).serializable_hash.to_json
-    else
-      render json: {
-        "status": "Only admin users can list users"
-      }, status: :unauthorized
-    end
+    @users = User.all
+    render json: UserSerializer.new(@users).serializable_hash.to_json
   end
-  
+
   def create
     @user = User.new(user_params)
     @user.role = Role.create_or_find_by(name: 'admin', description: 'admin user')
-
     if @user.save
       token = AuthTokenService.call(@user.id)
       render json: {
@@ -43,7 +37,6 @@ class Api::V1::UsersController < ApplicationController
       render :json, @user.errors, status: 422
     end
   end
-
 
   private
 

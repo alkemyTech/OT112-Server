@@ -1,59 +1,40 @@
 class Api::V1::SlidesController < ApplicationController
-  before_action :authorize_request
   before_action :set_slide, only: %i[show update destroy]
+  before_action :admin?
+  before_action :authorize_request
 
   def index
-    if admin?(@current_user)
-      @slides = Slide.all
-      render json: SlidesSerializer.new(@slides).serializable_hash.to_json
-    else
-      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
-    end
+    @slides = Slide.all
+    render json: SlidesSerializer.new(@slides).serializable_hash.to_json
   end
 
   def show
-    if admin?(@current_user)
-      render json: SlideDetailSerializer.new(@slide).serializable_hash.to_json, status: :ok
-    else
-      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
-    end
+    render json: SlideDetailSerializer.new(@slide).serializable_hash.to_json, status: :ok
   end
 
   def create
-    if admin?(@current_user)
-      @slide = Slide.new(slide_params)
-      @slide.image.attach(data: params[:image])
-      if @slide.save
-        render json: @slide
-      else
-        render json: @slide.errors, status: :unprocessable_entity 
-      end
+    @slide = Slide.new(slide_params)
+    @slide.image.attach(data: params[:image])
+    if @slide.save
+      render json: @slide
     else
-      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
+      render json: @slide.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    if admin?(@current_user)
-      if @slide.update(slide_params)
-        render json: SlidesSerializer.new(@slide).serializable_hash.to_json
-      else
-        render json: @slide.errors, status: :unprocessable_entity
-      end
+    if @slide.update(slide_params)
+      render json: Slide.Serializer.new(@slide).serializable_hash.to_json
     else
-      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
+      render json: @slide.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if admin?(@current_user)
-      if @slide.destroy
-        head :no_content
-      else
-        render json: @announcement.errors, status: :unprocessable_entity
-      end
+    if @slides.destroy
+      head :no_content
     else
-      render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
+      render json: @announcement.errors, status: :unprocessable_entity
     end
   end
 
@@ -79,6 +60,4 @@ class Api::V1::SlidesController < ApplicationController
     end
     order_array.empty? ? [0] : order_array
   end
-  
 end
-
