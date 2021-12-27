@@ -1,6 +1,6 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :authorize_request
-  before_action :set_category, only: %i[show update]
+  before_action :set_category, only: %i[show update destroy]
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
@@ -8,7 +8,7 @@ class Api::V1::CategoriesController < ApplicationController
     if admin?(@current_user)
       render json: CategorySerializer.new(@categories, { fields: { category: [:name] } }).serializable_hash.to_json
     else
-      render json: @category.errors, status: :unprocessable_entity
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
@@ -25,30 +25,31 @@ class Api::V1::CategoriesController < ApplicationController
         render json: @category.errors, status: :unprocessable_entity
       end
     else
-      render json: @category.errors, status: :unprocessable_entity
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   def update
-    if admin?(@current_user) && @category.update(category_params)
-      render json: CategorySerializer.new(@category).serializable_hash.to_json
+    if admin?(@current_user)
+      if @category.update(category_params)
+        render json: CategorySerializer.new(@category).serializable_hash.to_json
+      else
+        render json: @category.errors, status: :unprocessable_entity
+      end
     else
-      render json: { errors: @category.errors, msg: 'You are not authorized to perform that action' }, status: :unprocessable_entity
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   def destroy
     if admin?(@current_user)
-      @categories = Category.find(params[:id])
-      if @categories
-        @categories.destroy
-      else
+      if @category.destroy
         head :no_content
+      else
+        render json: @category.errors, status: :unprocessable_entity
       end
     else
-      render json: { 
-        "status": "Only admin users can delete categories" 
-      }, status: 422
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
@@ -56,7 +57,10 @@ class Api::V1::CategoriesController < ApplicationController
 
   def set_category
     @category = Category.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: {error: "Could not find category with ID '#{ params[:id] }'"}
   end
+  
 
   def category_params
     params.permit(:name, :description)
