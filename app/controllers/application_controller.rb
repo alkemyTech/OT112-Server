@@ -22,8 +22,10 @@ class ApplicationController < ActionController::API
     current_user.id == params[:id].to_i
   end
 
-  def admin?(current_user)
-    current_user.role.name == 'admin'
+  def admin?
+    unless @current_user.role.name == 'admin'
+      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
+    end
   end
 
   rescue_from CanCan::AccessDenied do

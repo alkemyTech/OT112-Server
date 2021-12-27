@@ -1,6 +1,7 @@
 class Api::V1::AnnouncementsController < ApplicationController
   before_action :authorize_request
   before_action :set_announcement, only: %i[show update destroy]
+  before_action :admin?, only: %i[create update destroy]
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
@@ -24,12 +25,8 @@ class Api::V1::AnnouncementsController < ApplicationController
   end
 
   def update
-    if admin?(@current_user) 
-      if @announcement.update(announcement_params)
-        render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
-      else
-        render json: @announcement.errors, status: :unprocessable_entity
-      end
+    if @announcement.update(announcement_params)
+      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
     else
       render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
@@ -40,7 +37,7 @@ class Api::V1::AnnouncementsController < ApplicationController
       if @announcement.destroy
         head :no_content
       else
-        render json: @announcement.errors, status: 422
+        render json: @announcement.errors, status: :unprocessable_entity
       end
     else
       render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized

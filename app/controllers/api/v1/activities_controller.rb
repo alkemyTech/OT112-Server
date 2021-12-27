@@ -1,5 +1,6 @@
 class Api::V1::ActivitiesController < ApplicationController
   before_action :authorize_request
+  before_action :admin?
   before_action :set_activity, only: [:update]
 
   def create
@@ -13,14 +14,10 @@ class Api::V1::ActivitiesController < ApplicationController
   end
 
   def update
-    if admin?(@current_user)
-      if @activity.update(activity_params)
-        render json: ActivitySerializer.new(@activity).serializable_hash.to_json, status: :ok
-      else
-        render json: @activity.errors
-      end
+    if @activity.update(activity_params)
+      render json: ActivitySerializer.new(@activity).serializable_hash.to_json, status: :ok
     else
-      render json: {error: 'You are not authorized to perform that action'}, status: :unauthorized
+      render json: @activity.errors
     end
   end
 
