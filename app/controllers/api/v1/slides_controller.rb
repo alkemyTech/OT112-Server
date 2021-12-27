@@ -1,7 +1,7 @@
 class Api::V1::SlidesController < ApplicationController
   before_action :authorize_request
   before_action :set_slide, only: %i[show update destroy]
-  
+
   def index
     if admin?(@current_user)
       @slides = Slide.all
@@ -34,23 +34,23 @@ class Api::V1::SlidesController < ApplicationController
   end
 
   def update
-    if admin?(@current_user)  
+    if admin?(@current_user)
       if @slide.update(slide_params)
         render json: SlidesSerializer.new(@slide).serializable_hash.to_json
       else
-          render json: @slide.errors, status: :unprocessable_entity
+        render json: @slide.errors, status: :unprocessable_entity
       end
     else
       render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
-  
+
   def destroy
     if admin?(@current_user)
       if @slide.destroy
         head :no_content
       else
-        render json: @announcement.errors, status: 422
+        render json: @announcement.errors, status: :unprocessable_entity
       end
     else
       render json: { msg: 'You are not authorized to perform that action' }, status: :unauthorized
@@ -62,19 +62,18 @@ class Api::V1::SlidesController < ApplicationController
   def set_slide
     @slide = Slide.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Could not find slide with ID '#{ params[:id] }'" }
+    render json: { error: "Could not find slide with ID '#{params[:id]}'" }
   end
-  
-  
+
   def slide_params
     default = { order: order_default.max + 1 }
     params.permit(:order, :organization_id).reverse_merge(default)
   end
-  
+
   def order_default
     order_array = []
     slides = Slide.all
-    
+
     slides.each do |slide|
       order_array << slide.order
     end
