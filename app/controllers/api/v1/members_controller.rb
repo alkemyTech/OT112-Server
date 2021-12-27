@@ -1,9 +1,6 @@
 class Api::V1::MembersController < ApplicationController
-  include Pagy::Backend
-
   before_action :authorize_request
   before_action :set_member, only: %i[update destroy]
-
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
@@ -41,7 +38,7 @@ class Api::V1::MembersController < ApplicationController
       if @member.destroy
         head :no_content
       else
-        render json: @member.errors, status: 422
+        render json: @member.errors, status: :unprocessable_entity
       end
     else
       render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
@@ -57,7 +54,7 @@ class Api::V1::MembersController < ApplicationController
   def set_member
     @member = Member.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Could not find member with ID '#{ params[:id] }'" }
+    render json: { error: "Could not find member with ID '#{params[:id]}'" }
   end
   
   def is_integer?(p)
