@@ -30,7 +30,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     get api_v1_users_url, params: {}, headers: bad_auth_header 
     expect(response).to have_http_status(:unauthorized)
     parsed = JSON.parse(response.body)
-    expect(parsed['status']).to eq('Only admin users can list announcements')
+    expect(parsed['error']).to eq('You are not authorized to perform that action')
   end
 
   it 'returns http status 401 when no authorization header is sent (GET /index)' do
