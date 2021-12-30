@@ -1,8 +1,8 @@
 class Api::V1::TestimonialsController < ApplicationController
   include Pagy::Backend
-  before_action :set_testimonial, only: %i[update destroy]
   before_action :authorize_request
   before_action :admin?, only: %i[create update destroy]
+  before_action :set_testimonial, only: %i[update destroy]
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
@@ -47,7 +47,7 @@ class Api::V1::TestimonialsController < ApplicationController
   def set_testimonial
     @testimonial = Testimonial.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Could not find testimonial with ID '#{params[:id]}'" }
+    render json: { error: "Could not find testimonial with ID '#{params[:id]}'" }, status: :not_found
   end
 
   def testimonial_params
