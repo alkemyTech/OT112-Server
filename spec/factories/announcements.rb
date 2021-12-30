@@ -3,10 +3,10 @@
 # Table name: announcements
 #
 #  id          :bigint           not null, primary key
+#  comm_type   :string
 #  content     :text             not null
 #  deleted_at  :datetime
 #  name        :string           not null
-#  type        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint           not null
@@ -24,6 +24,7 @@ FactoryBot.define do
     name { "MyString" }
     content { "MyText" }
     category { 1 }
-    deleted_at { "2021-11-24 22:40:24" }
+    comm_type { "MyString" }
+    # deleted_at { "2021-11-24 22:40:24" }
   end
 end
