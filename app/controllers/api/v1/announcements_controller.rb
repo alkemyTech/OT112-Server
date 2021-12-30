@@ -1,7 +1,7 @@
 class Api::V1::AnnouncementsController < ApplicationController
   before_action :authorize_request
-  before_action :set_announcement, only: %i[show update destroy]
   before_action :admin?, only: %i[create update destroy]
+  before_action :set_announcement, only: %i[show update destroy]
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def index
@@ -15,10 +15,10 @@ class Api::V1::AnnouncementsController < ApplicationController
 
   def create
     @announcement = Announcement.new(announcement_params)
-    @announcement.type = "news"
+    @announcement.comm_type = "news"
     @announcement.category = Category.create_or_find_by(name: 'news', description: 'news category')
     if @announcement.save
-      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
+      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json, status: :created
     else
       render json: @announcement.errors, status: :unprocessable_entity
     end
@@ -26,22 +26,19 @@ class Api::V1::AnnouncementsController < ApplicationController
 
   def update
     if @announcement.update(announcement_params)
-      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json
+      render json: AnnouncementSerializer.new(@announcement).serializable_hash.to_json, status: :created
     else
       render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
     end
   end
 
   def destroy
-    if admin?(@current_user) 
-      if @announcement.destroy
-        head :no_content
-      else
-        render json: @announcement.errors, status: :unprocessable_entity
-      end
-    else
-      render json: { error: 'You are not authorized to perform that action' }, status: :unauthorized
-    end
+      @announcement.destroy
+      render json: {
+        status: 'Success',
+        message: 'Announcement destroyed.',
+        data: @announcement,
+        }, status: :ok
   end
 
   private
@@ -49,11 +46,10 @@ class Api::V1::AnnouncementsController < ApplicationController
   def set_announcement
     @announcement = Announcement.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Could not find announcement with ID '#{ params[:id] }'" }
+    render json: { error: "Could not find announcement with ID '#{ params[:id] }'" }, status: :not_found
   end
-  
 
   def announcement_params
-    params.permit(:image, :name, :content, :category_id, :type)
+    params.permit(:image, :name, :content, :category_id, :comm_type)
   end
 end
