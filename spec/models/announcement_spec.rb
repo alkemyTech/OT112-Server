@@ -3,10 +3,10 @@
 # Table name: announcements
 #
 #  id          :bigint           not null, primary key
+#  comm_type   :string
 #  content     :text             not null
 #  deleted_at  :datetime
 #  name        :string           not null
-#  type        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint           not null
@@ -22,5 +22,21 @@
 require 'rails_helper'
 
 RSpec.describe Announcement, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+    context 'at creation' do
+      let(:category)     { create(:category)}
+      let(:announcement) { create(:announcement, category: category)}
+
+      it 'should validate name presence' do
+        should validate_presence_of(:name)
+      end
+
+      it 'should validate content presence' do
+        should validate_presence_of(:content)
+      end
+
+      it 'should validate comm_type presence' do
+        should validate_presence_of(:comm_type)
+      end
+    end
+
 end
