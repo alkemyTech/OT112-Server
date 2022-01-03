@@ -28,5 +28,6 @@ FactoryBot.define do
     last_name { "test" }
     email { "testemail@test.com" }
     password { "123456" }
+    role
   end
 end
