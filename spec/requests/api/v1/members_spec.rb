@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::Members", type: :request do
-  let(:role) { FactoryBot.create(:role) }
+  let(:role) { create(:role) }
   let(:role2) { FactoryBot.create(:role, name: "user", description: "user user") }
   
 
