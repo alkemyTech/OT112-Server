@@ -41,9 +41,8 @@ RSpec.describe User, type: :model do
     expect(subject).to be_valid
   end
 
-  it 'is not valid without a email' do
-    subject.email = nil
-    expect(subject).not_to be_valid
+  context 'validates email presence' do
+    it { should validate_presence_of(:email) }
   end
 
   it 'is not valid without a first_name' do
