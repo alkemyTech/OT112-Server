@@ -18,10 +18,10 @@
 #
 FactoryBot.define do
   factory :member do
-    name { "" }
-    facebookUrl { "" }
-    instagramUrl { "" }
-    linkedinUrl { "" }
-    description { "MyText" }
+    name { "Juan Carlos" }
+    facebook_url { "https://facebook.com/juancarlos" }
+    instagram_url { "https://instagram.com/juancarlos" }
+    linkedin_url { "https://linkedin.com/in/juancarlos" }
+    description { "Miembro de prueba" }
   end
 end
