@@ -24,5 +24,8 @@
 #
 class UserSerializer
   include JSONAPI::Serializer
-  attributes :first_name, :last_name, :email, :photo
+  attributes :first_name, :last_name, :email
+  attribute :photo do |user|
+    Rails.application.routes.url_helpers.rails_blob_path(user.photo, only_path: true) if user.photo.attached?
+  end
 end
